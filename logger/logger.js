@@ -24,7 +24,7 @@ const options = {
 // Create a new Winston logger instance
 const logger = winston.createLogger({
   format: winston.format.combine(
-    winston.format.timestamp(), // Add timestamp to logs
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms A' }), // Add timestamp to logs
     winston.format.printf((info) => {
         // Define the log format
         return `${info.timestamp} [${info.level.toUpperCase()}] - ${info.message}`;
