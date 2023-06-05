@@ -14,3 +14,7 @@ This repo is REST API server for supermart-app
 
 `PORT` - specify port for server listening
 
+`JWT_SECRET` - Sign with your JWT Secret
+
+`JWT_EXPIRE` - JWT Token expite time 
+

@@ -5,6 +5,7 @@ import path from "path";
 import { dbconnect } from "./utils/dbconnect.js";
 import productRoutes from "./routes/v1/productsRoutes.js";
 import categoriesRoutes from "./routes/v1/categoriesRoutes.js"
+import userRoutes from "./routes/v1/userRoutes.js";
 
 dotenv.config();
 
@@ -16,7 +17,10 @@ const app = express();
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
+app.use(express.json());
+
 //routes
+app.use("/api/v1/auth" , userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
 
