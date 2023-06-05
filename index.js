@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { dbconnect } from "./utils/dbconnect.js";
 import productRoutes from "./routes/v1/productsRoutes.js";
 import categoriesRoutes from "./routes/v1/categoriesRoutes.js"
+import userRoutes from "./routes/v1/userRoutes.js";
 
 dotenv.config();
 
@@ -12,7 +13,9 @@ dbconnect();
 
 const app = express();
 
+app.use(express.json());
 //routes
+app.use("/api/v1/auth" , userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
 
