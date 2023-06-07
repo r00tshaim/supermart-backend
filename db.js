@@ -1,29 +1,62 @@
 //format: productId, categoreyId, productName, productMRPPrice, productImage
 export const productsList  = [
-    { "id": 1, "categoryId": 3, "name": "Thumbs Up", "price": 230.00, "image": "http://localhost:5555/uploads/products/product1.jpg", "description": "Decription for Product 1" },
-    { "id": 2, "categoryId": 3, "name": "Maaza", "price": 100.00, "image": "http://localhost:5555/uploads/products/product2.jpg", "description": "Decription for Product 2" },
-    { "id": 3, "categoryId": 4, "name": "Lays classic salted", "price": 40.00, "image": "http://localhost:5555/uploads/products/product3.jpg", "description": "Decription for Product 3" },
-    { "id": 4, "categoryId": 4, "name": "Kurkure", "price": 20.00, "image": "http://localhost:5555/uploads/products/product4.webp", "description": "Decription for Product 4" },
-    { "id": 5, "categoryId": 1, "name": "India gate basmati rice", "price": 400.00, "image": "http://localhost:5555/uploads/products/product5.webp", "description": "Decription for Product 5" },
-    { "id": 6, "categoryId": 3, "name": "Natural Litchi", "price": 49.00, "image": "http://localhost:5555/uploads/products/product6.jpg", "description": "Decription for Product 2" },
-    { "id": 7, "categoryId": 1, "name": "Saffola Gold Refined Oil", "price": 165.99, "image": "http://localhost:5555/uploads/products/product7.jpg", "description": "Decription for Product 6" },
-    { "id": 8, "categoryId": 1, "name": "Aashirvaad Shudh Chakki Atta", "price": 494.00, "image": "http://localhost:5555/uploads/products/product8.webp", "description": "Decription for Product 7" },
-    { "id": 9, "categoryId": 1, "name": "Amul Mango Shrikhand", "price": 115.00, "image": "http://localhost:5555/uploads/products/product9.webp", "description": "Decription for Product 8" },
-    { "id": 10, "categoryId": 2, "name": "Mamaearth Vitamin C Face Wash", "price": 259.00, "image": "http://localhost:5555/uploads/products/product10.webp", "description": "Decription for Product 9" },
-    { "id": 11, "categoryId": 2, "name": "Mamaearth Charcoal Body Wash With Charcoal and Mint", "price": 299.00, "image": "http://localhost:5555/uploads/products/product11.webp", "description": "Decription for Product 10" }
+    {name: "Thumbs Up", mrpPrice: 230.00, subCategory: "Beverages", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product1.jpg", description: "Decription for Thumbs Up" },
+    {name: "Maaza", mprPrice: 100.00, subCategory: "Beverages", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product2.jpg", description: "Decription for Maaza" },
+    {name: "Lays classic salted", mrpPrice: 40.00, subCategory: "Snacks & Branded Foods", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product3.jpg", description: "Decription for Lays classic salted" },
+    {name: "Kurkure", mrpPrice: 20.00, subCategory: "Snacks & Branded Foods", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product4.webp", description: "Decription for Kurkure" },
+    {name: "India gate basmati rice", mrpPrice: 400.00, subCategory: "Rice & Rice Products", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product5.webp", description: "Decription for India gate basmati rice" },
+    {name: "Natural Litchi", mrpPrice: 49.00, subCategory: "Beverages", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product6.jpg", description: "Decription for Natural Litchi" },
+    {name: "Saffola Gold Refined Oil", mrpPrice: 165.99, subCategory: "Edible Oil", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product7.jpg", description: "Decription for Saffola Gold Refined Oil" },
+    {name: "Amul Mango Shrikhand", mprPrice: 115.00, subCategory: "Dairy & Bakery", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product9.webp", description: "Decription for Amul Mango Shrikhand" },
+    {name: "Mamaearth Charcoal Body Wash With Charcoal and Mint", mrpPrice: 299.00, subCategory: "Skin Care", mainCategory: "Beauty", image: "http://localhost:5555/uploads/products/product11.webp", description: "Decription for Mamaearth Charcoal Body Wash With Charcoal and Mint" },
+
+    {name: "Aashirvaad Shudh Chakki Atta", mrpPrice: 494.00, offerPrice: 400.00,  subCategory: "Atta, Floor and Soji", mainCategory: "Groceries", image: "http://localhost:5555/uploads/products/product8.webp", description: "Decription for Aashirvaad Shudh Chakki Atta" },
+    {name: "Mamaearth Vitamin C Face Wash", mrpPrice: 259.00, offerPrice: 200.00, subCategory: "Skin Care", mainCategory: "Beauty", image: "http://localhost:5555/uploads/products/product10.webp", description: "Decription for Mamaearth Vitamin C Face Wash" },
 ]
 
 //format: categoreyId, categoreyName, categoreyImage
-export const categoriesList = [
-    { "id": 1, "name": "Groceries", "image": "http://localhost:5555/uploads/categories/grocery.png" },
-    { "id": 2, "name": "Beauty & Personal Care", "image": "http://localhost:5555/uploads/categories/beauty-care.png" },
-    { "id": 3, "name": "Beverages", "image": "http://localhost:5555/uploads/categories/beverages.png" },
-    { "id": 4, "name": "Snacks & Branded Foods", "image": "http://localhost:5555/uploads/categories/snacks.png" },
-    { "id": 5, "name": "Home & Kitchen", "image": "http://localhost:5555/uploads/categories/kitchen.png" },
-    { "id": 6, "name": "Fashion", "image": "http://localhost:5555/uploads/categories/fashion.png" },
-    { "id": 7, "name": "Sports & Toys", "image": "http://localhost:5555/uploads/categories/sports.png" }
+export const mainCategoriesList = [
+    {name: "Groceries", subCategorey: [
+        "Dairy & Bakery", "Rice & Rice Products", "Dal & Pulses", "Edible Oil", "Atta, Floor and Soji", "Snacks & Branded Foods", "Beverages", 
+    ], image: "http://localhost:5555/uploads/categories/grocery.png", description: "Decription for Groceries" },
+
+    {name: "Beauty", subCategorey: [
+        "Skin Care", "Personal Care", "Mom & Baby", "Hairs",
+    ],
+    image: "http://localhost:5555/uploads/categories/beauty-care.png", description: "Decription for Beauty & Personal Care" },
+
+    {name: "Home & Kitchen", subCategorey: [
+        "Disposables", "Home Decor", "Prayer & Spritiual Needs", 
+    ],
+    image: "http://localhost:5555/uploads/categories/kitchen.png", description: "Decription for Home & Kitchen" },
+
+    {name: "Fashion", subCategorey: [
+        "Mens Fashion", "Womens Fashion", "Childrens Fashion",
+    ],
+    image: "http://localhost:5555/uploads/categories/fashion.png", description: "Decription for Fashion" },
+
+    {name: "Sports & Toys", subCategorey: [],image: "http://localhost:5555/uploads/categories/sports.png", description: "Decription for Sports & Toys" }
 ]
 
+export const subCategoriesList = [
+    {name: "Dairy & Bakery", mainCategory: "Groceries", image: "", description: "Decription for sub category - Dairy & Bakery"},
+    {name: "Rice & Rice Products", mainCategory: "Groceries",image: "", description: "Decription for sub category - Rice & Rice Products"},
+    {name: "Dal & Pulses", mainCategory: "Groceries",image: "", description: "Decription for sub category - Dal & Pulses"},
+    {name: "Edible Oil", mainCategory: "Groceries",image: "", description: "Decription for sub category - Edible Oil"},
+    {name: "Atta, Floor and Soji", mainCategory: "Groceries",image: "", description: "Decription for sub category - Atta, Floor and Soji"},
+    {name: "Snacks & Branded Foods", mainCategory: "Groceries", image: "", description: "Decription for sub category - Snacks & Branded Foods"},
+    {name: "Beverages", mainCategory: "Groceries", image: "",description: "Decription for sub category - Beverages" },
+    {name: "Skin Care", mainCategory: "Beauty", image: "", description: "Decription for sub category - Skin Care" }, 
+    {name: "Personal Care", mainCategory: "Beauty", image: "", description: "Decription for sub category - Personal Care" }, 
+    {name: "Mom & Baby", mainCategory: "Beauty", image: "", description: "Decription for sub category - Mom & Baby" }, 
+    {name: "Hairs", mainCategory: "Beauty", image: "", description: "Decription for sub category - Hairs" }, 
+    {name: "Disposables", mainCategory: "Home & Kitchen", image: "", description: "Decription for sub category - Disposables" }, 
+    {name: "Home Decor", mainCategory: "Home & Kitchen", image: "", description: "Decription for sub category - Home Decor" },
+    {name: "Prayer & Spritiual Needs", mainCategory: "Home & Kitchen", image: "", description: "Decription for sub category - Prayer & Spritiual Needs" },
+    {name: "Mens Fashion", mainCategory: "Fashion", image: "", description: "Decription for sub category - Mens Fashion" },
+    {name: "Womens Fashion", mainCategory: "Fashion", image: "", description: "Decription for sub category - Womens Fashion" },
+    {name: "Childrens Fashion", mainCategory: "Fashion", image: "", description: "Decription for sub category - Childrens Fashion" },
+]
 //format: offerId, categoryId, offerLabel, maxDiscount, maxDiscountValue, offerImage
 export const categoriesOffers = [
     {"id": 1001, "categoryId": 1, "label": "Upto 30% off", "discount": "30%", "maxDiscountValue": "100", "image": "http://localhost:5555/uploads/300x200-000-fff.webp" },

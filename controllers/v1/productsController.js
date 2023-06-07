@@ -1,6 +1,6 @@
 import logger from '../../logger/logger.js';
 
-import { productsList } from "../../db.js";
+import Product from '../../models/productModel.js';
 
 
 // @desc    Fetch all products
@@ -9,8 +9,8 @@ import { productsList } from "../../db.js";
 const getProducts = async (req, res) => {
   logger.info('getProducts');
   try{
-    const products = productsList;
-    res.json({ products });
+    const products = await Product.find();
+    res.status(200).json({ products });
   } catch(err) {
     logger.error(`Error in getProducts err=${err}`);
     res.status(500)
