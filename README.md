@@ -16,7 +16,7 @@ This repo is REST API server for supermart-app
 
 `JWT_SECRET` - Sign with your JWT Secret
 
-`JWT_EXPIRE` - JWT Token expite time 
+`JWT_EXPIRE` - JWT Token expire time 
 
 ## Project setup
 running seeder script to dump dummy data to mongodb `node seeder.js`
