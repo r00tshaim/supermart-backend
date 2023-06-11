@@ -30,6 +30,10 @@ const ProductSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "subCategory",
   },
+
+  quantity: { type: Schema.Types.Mixed, require: true }, // can be a number or a string for custom quantities
+
+  quantityUnit: { type: String, require: true }, // unit of measurement for the quantity (e.g. "kg", "L", "g", etc.)
 });
 
 const Product = mongoose.model("Product", ProductSchema);

@@ -10,7 +10,7 @@ import { mainCategoriesList, subCategoriesList, productsList } from './db.js'
 
 dotenv.config()
 
-dbconnect()
+await dbconnect()
 
 //helper functions
 const seedProducts = async () => {
@@ -28,7 +28,9 @@ const seedProducts = async () => {
             mrpPrice: productData.mrpPrice,
             offerPrice: productData.offerPrice || -1,
             category: category.id,
-            subcategory: subcategory.id
+            subcategory: subcategory.id,
+            quantity: productData.quantity,
+            quantityUnit: productData.quantityUnit,
         });
 
         // Save the product to the database
