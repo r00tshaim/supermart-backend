@@ -6,6 +6,7 @@ import { dbconnect } from "./utils/dbconnect.js";
 import productRoutes from "./routes/v1/productsRoutes.js";
 import categoriesRoutes from "./routes/v1/categoriesRoutes.js"
 import userRoutes from "./routes/v1/userRoutes.js";
+import ordersRoutes from "./routes/v1/ordersRoutes.js"
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use("/api/v1/auth" , userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
+app.use("/api/v1/orders" , ordersRoutes);
 
 app.get("/test", (req, res) => {
   res.send("REST API server is running");
