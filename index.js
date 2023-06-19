@@ -6,6 +6,10 @@ import { dbconnect } from "./utils/dbconnect.js";
 import productRoutes from "./routes/v1/productsRoutes.js";
 import categoriesRoutes from "./routes/v1/categoriesRoutes.js"
 import userRoutes from "./routes/v1/userRoutes.js";
+import authRoutes from "./routes/v1/authRoutes.js"
+
+//TODO: need to move initTwilio as utils function
+import { initTwilio } from "./controllers/v1/authController.js";
 
 import morganMiddleware from "./middlewares/morgan.middleware.js";
 // The morgan middleware does not need this.
@@ -16,6 +20,9 @@ dotenv.config();
 
 //connecting to db
 dbconnect();
+
+//intilaizing twilio client
+initTwilio();
 
 const app = express();
 
@@ -31,6 +38,8 @@ app.use(express.json());
 app.use("/api/v1/auth" , userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
+app.use("/api/v1/auth", authRoutes);
+
 
 app.get("/test", (req, res) => {
   logger.info("Checking the API status: Everything is OK")
