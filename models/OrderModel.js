@@ -3,11 +3,9 @@ import mongoose from "mongoose";
 const OrderSchema = mongoose.Schema({
   orderItems: [
     {
-      product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
         required: [true, "Please add items"],
-      },
     },
   ],
   status: {
@@ -36,9 +34,12 @@ const OrderSchema = mongoose.Schema({
     required: true,
   },
   deliveryAddress: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "deliveryAddress",
-    required: true,
+    //TODO: use deliveryAddress Schema
+    //type: mongoose.Schema.Types.ObjectId,
+    //ref: "deliveryAddress",
+    //required: true,
+    type: String,
+    required: true
   },
   paymentMethod: {
     type: String,

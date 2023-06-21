@@ -2,7 +2,7 @@ import ErrorHandler from "../../utils/errorHandler.js";
 import Order from "../../models/OrderModel.js";
 
 // @desc    Create New Order
-// @route   POST /api/orders
+// @route   POST /api/v1/orders
 // @access  private
 const createOrder = async (req, res, next) => {
   const {
@@ -15,9 +15,10 @@ const createOrder = async (req, res, next) => {
     paymentMethod,
   } = req.body;
 
+  console.log(`orderItems=${orderItems} orderTotal=${orderTotal} deliverAdd=${deliveryAddress} paymentMethod=${paymentMethod}`)
+
   if (
     !orderItems ||
-    !status ||
     !orderTotal ||
     !deliveryAddress ||
     !paymentMethod
@@ -28,10 +29,10 @@ const createOrder = async (req, res, next) => {
   try {
     const order = new Order({
       orderItems,
-      user: req.user._id,
-      status: "placed",
-      placedAt,
-      lastUpdatedAt,
+      //user: req.user._id,           //TODO: we need to revisit this logic once authentication feature is completed
+      //status,
+      //placedAt,
+      //lastUpdatedAt,
       orderTotal,
       deliveryAddress,
       paymentMethod,
@@ -45,7 +46,7 @@ const createOrder = async (req, res, next) => {
         createdOrder,
       });
     } else {
-      return next(new ErrorHandler("Somthing want wrong!", 401));
+      return next(new ErrorHandler("Somthing went wrong!", 401));
     }
   } catch (error) {
     return next(new ErrorHandler(`Error : ${error.message}`, 500));
