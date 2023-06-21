@@ -6,6 +6,7 @@ import { dbconnect } from "./utils/dbconnect.js";
 import productRoutes from "./routes/v1/productsRoutes.js";
 import categoriesRoutes from "./routes/v1/categoriesRoutes.js"
 import userRoutes from "./routes/v1/userRoutes.js";
+import ordersRoutes from "./routes/v1/ordersRoutes.js"
 import authRoutes from "./routes/v1/authRoutes.js"
 
 //TODO: need to move initTwilio as utils function
@@ -35,9 +36,10 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.use(express.json());
 
 //routes
-app.use("/api/v1/auth" , userRoutes);
+app.use("/api/v1/user" , userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
+app.use("/api/v1/orders" , ordersRoutes);
 app.use("/api/v1/auth", authRoutes);
 
 
