@@ -8,6 +8,11 @@ const OfferSchema = new Schema({
 });
 */
 
+const brandSchema = new Schema({
+  name: String,
+  image: String,
+});
+
 const ProductSchema = new Schema({
   name: { type: String, require: true },
 
@@ -30,8 +35,20 @@ const ProductSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "subCategory",
   },
+
+  quantity: { type: Schema.Types.Mixed, require: true }, // can be a number or a string for custom quantities
+
+  quantityUnit: { type: String, require: true }, // unit of measurement for the quantity (e.g. "kg", "L", "g", etc.)
+
+  brand: {
+    type: Schema.Types.ObjectId,
+    ref: "Brand",
+  },
+
 });
 
 const Product = mongoose.model("Product", ProductSchema);
+const Brand = mongoose.model("Brand", brandSchema);
 
 export default Product;
+export {Brand};

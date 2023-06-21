@@ -2,23 +2,25 @@ import dotenv from 'dotenv'
 import {dbconnect} from './utils/dbconnect.js'
 
 import Category, {subCategory} from './models/CategoryModel.js';
-import Product from './models/productModel.js';
+import Product, {Brand} from './models/productModel.js';
 import User from './models/UserModels.js'
 
-import { mainCategoriesList, subCategoriesList, productsList } from './db.js'
+import { mainCategoriesList, subCategoriesList, productsList, brandList } from './db.js'
 
 
 dotenv.config()
 
-dbconnect()
+await dbconnect()
 
 //helper functions
 const seedProducts = async () => {
     for (const productData of productsList) {
         // Get the category object
-        const category = await Category.findOne({ name: productData.mainCategory });
+        const categoryObj = await Category.findOne({ name: productData.mainCategory });
         // Get the subcategory object
-        const subcategory = await subCategory.findOne({ name: productData.subCategory });
+        const subcategoryObj = await subCategory.findOne({ name: productData.subCategory });
+        // Get the brand object
+        const brandObj = await Brand.findOne({ name: productData.brand });
 
         // Create a new product object
         const product = new Product({
@@ -27,8 +29,11 @@ const seedProducts = async () => {
             image: productData.image,
             mrpPrice: productData.mrpPrice,
             offerPrice: productData.offerPrice || -1,
-            category: category.id,
-            subcategory: subcategory.id
+            brand: brandObj.id,
+            category: categoryObj.id,
+            subcategory: subcategoryObj.id,
+            quantity: productData.quantity,
+            quantityUnit: productData.quantityUnit,
         });
 
         // Save the product to the database
@@ -57,12 +62,34 @@ const seedMainCategories = async () => {
         await mainCategoryObj.save();        
     }
 }
+
+const seedBrands = async () => {
+    for (const brandData of brandList) {
+        // Create a new Brand object
+        const brandObj = new Brand({
+            name: brandData.name,
+            image: brandData.image,
+        });
+
+        // Save the Brand to the database
+        await brandObj.save();
+    }
+}
 //end of helper functions
 
 
 const importData = async () => {
     try {
+        //-----------brands------------------
+        console.log("Processing Brands");
+        await Brand.deleteMany();
+
+        await seedBrands();
+        console.log("Done");
+        //-----------end brands--------------
+
         //------------categories--------------
+        console.log("Processing Categories");
         await Category.deleteMany()
         await subCategory.deleteMany()
 
@@ -73,13 +100,16 @@ const importData = async () => {
         await subCategory.insertMany(sampleSubCategories)       
 
         await seedMainCategories()
+        console.log("Done");
         //-------------end categories------------
 
 
         //-------------products-----------------
+        console.log("Processing Products");
         await Product.deleteMany()
 
         await seedProducts();
+        console.log("Done");
         //-------------end products-------------
 
         console.log('Data Imported!')
