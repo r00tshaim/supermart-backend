@@ -9,6 +9,8 @@ import userRoutes from "./routes/v1/userRoutes.js";
 import ordersRoutes from "./routes/v1/ordersRoutes.js"
 import authRoutes from "./routes/v1/authRoutes.js"
 
+import ErrorHandlerMiddleware from "./middlewares/errorMiddleware.js";
+
 //TODO: need to move initTwilio as utils function
 import { initTwilio } from "./controllers/v1/authController.js";
 
@@ -51,6 +53,7 @@ app.get("/test", (req, res) => {
   });
 });
 
+app.use(ErrorHandlerMiddleware);
 
 //server listening
 const PORT = process.env.PORT || 5555;

@@ -3,9 +3,16 @@ import mongoose from "mongoose";
 const OrderSchema = mongoose.Schema({
   orderItems: [
     {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: [true, "Please add items"],
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: [true, "Please add items"],
+        },
+        qty: {
+          type: Number,
+          required: true,
+          default: 1,
+        }
     },
   ],
   status: {
