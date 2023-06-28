@@ -15,15 +15,13 @@ const createOrder = async (req, res, next) => {
     paymentMethod,
   } = req.body;
 
-  console.log(`orderItems=${orderItems} orderTotal=${orderTotal} deliverAdd=${deliveryAddress} paymentMethod=${paymentMethod}`)
+  orderItems.map((item) => console.log("item=", item));
+  console.log(
+    `orderTotal=${orderTotal} deliverAdd=${deliveryAddress} paymentMethod=${paymentMethod}`
+  );
 
-  if (
-    !orderItems ||
-    !orderTotal ||
-    !deliveryAddress ||
-    !paymentMethod
-  ) {
-    return next(new ErrorHandler("Please provide all required filds"));
+  if (!orderItems || !orderTotal || !deliveryAddress || !paymentMethod) {
+    return next(new ErrorHandler(401, "Please provide all required filds"));
   }
 
   try {
@@ -39,17 +37,18 @@ const createOrder = async (req, res, next) => {
     });
 
     const createdOrder = await order.save();
+    //need to send product object, instead of product id
+    const populatedOrder = await Order.findById(createdOrder._id)
+      .populate("orderItems.productId")
+      .exec();
 
-    if (createOrder) {
-      res.status(200).json({
-        success: true,
-        createdOrder,
-      });
-    } else {
-      return next(new ErrorHandler("Somthing went wrong!", 401));
-    }
+    //console.log("createdOrder=", populatedOrder)
+    res.status(200).json({
+      success: true,
+      order: populatedOrder,
+    });
   } catch (error) {
-    return next(new ErrorHandler(`Error : ${error.message}`, 500));
+    return next(new ErrorHandler(501, `Error : ${error.message}`));
   }
 };
 
@@ -59,15 +58,11 @@ const createOrder = async (req, res, next) => {
 const getAllOrders = async (req, res, next) => {
   try {
     const orders = await Order.find({});
-    if (orders) {
-      res.status(200).json({
-        orders,
-      });
-    } else {
-      return next(new ErrorHandler("Somthing went wrong!", 401));
-    }
+    res.status(200).json({
+      orders,
+    });
   } catch (error) {
-    return next(new ErrorHandler(`Error : ${error.message}`, 500));
+    return next(new ErrorHandler(501, `Error : ${error.message}`));
   }
 };
 
@@ -78,14 +73,14 @@ const updateOrderStatus = async (req, res, next) => {
   const { status } = req.body;
 
   if (!status) {
-    return next(new ErrorHandler("Please provide status fild", 401));
+    return next(new ErrorHandler(401, "Please provide status fild"));
   }
 
   try {
     const order = await Order.findById(req.params.id);
 
     if (!order) {
-      return next(new ErrorHandler("No order found!", 404));
+      return next(new ErrorHandler(404, "No order found!"));
     }
     if (order) {
       order.status = status;
@@ -96,7 +91,7 @@ const updateOrderStatus = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new ErrorHandler(`Error : ${error.message}`, 500));
+    return next(new ErrorHandler(501, `Error : ${error.message}`));
   }
 };
 
@@ -115,7 +110,7 @@ const cancelOrder = async (req, res, next) => {
   try {
     const order = await Order.findOneAndDelete({ _id: orderId });
     if (!order) {
-      return next(new ErrorHandler("Order not found!", 404));
+      return next(new ErrorHandler(404, "Order not found!"));
     }
 
     if (order) {
@@ -125,7 +120,7 @@ const cancelOrder = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new ErrorHandler(`Error : ${error.message}`, 500));
+    return next(new ErrorHandler(501, `Error : ${error.message}`));
   }
 };
 
