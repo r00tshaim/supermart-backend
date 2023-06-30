@@ -48,7 +48,7 @@ const createOrder = async (req, res, next) => {
       order: populatedOrder,
     });
   } catch (error) {
-    return next(new ErrorHandler(501, `Error : ${error.message}`));
+    return next(new ErrorHandler(501, `Error createOrder(): ${error.message}`));
   }
 };
 
@@ -57,12 +57,15 @@ const createOrder = async (req, res, next) => {
 // @access  Public
 const getAllOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({});
+    const orders = await Order.find().populate({
+      path:"orderItems.productId"
+    });
+    console.log("orders=", orders)
     res.status(200).json({
       orders,
     });
   } catch (error) {
-    return next(new ErrorHandler(501, `Error : ${error.message}`));
+    return next(new ErrorHandler(501, `Error getAllOrders(): ${error.message}`));
   }
 };
 
@@ -91,7 +94,7 @@ const updateOrderStatus = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new ErrorHandler(501, `Error : ${error.message}`));
+    return next(new ErrorHandler(501, `Error updateOrderStatus(): ${error.message}`));
   }
 };
 
@@ -120,7 +123,7 @@ const cancelOrder = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new ErrorHandler(501, `Error : ${error.message}`));
+    return next(new ErrorHandler(501, `Error cancelOrder(): ${error.message}`));
   }
 };
 

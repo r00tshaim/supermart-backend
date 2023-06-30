@@ -18,15 +18,15 @@ const OrderSchema = mongoose.Schema({
   status: {
     type: String,
     enum: [
-      "cancelled",
-      "rejected",
-      "placed",
-      "confirmed",
-      "dispatched",
-      "delivered",
+      "CANCELLED",
+      "REJECTED",
+      "PLACED",
+      "CONFIRMED",
+      "DISPATCHED",
+      "DELIVERED",
     ],
     required: true,
-    default: "placed",
+    default: "PLACED",
   },
   placedAt: {
     type: Date,
