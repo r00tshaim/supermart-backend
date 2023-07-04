@@ -1,4 +1,5 @@
 import generateToken from "../../config/generateToken.js";
+import logger from "../../logger/logger.js";
 import User from "../../models/UserModels.js";
 import ErrorHandler from "../../utils/errorHandler.js";
 
@@ -35,8 +36,22 @@ const register = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new ErrorHandler(`Error : ${error.message}`, 500));
+    return next(new ErrorHandler(`Error register(): ${error.message}`, 500));
   }
 };
 
-export { register };
+const findUserByMobile = (mobile) => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ mobile: mobile }, (err, user) => {
+      if (err) {
+        reject(err);
+      } else if (user) {
+        resolve(user);
+      } else {
+        resolve(null);
+      }
+    });
+  });
+};
+
+export { register, findUserByMobile };

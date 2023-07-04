@@ -1,6 +1,8 @@
 import logger from '../../logger/logger.js';
 import ErrorHandler from "../../utils/errorHandler.js";
 import twilio from "twilio"
+import { findUserByMobile } from './userController.js';
+import generateToken from "../../config/generateToken.js";
 
 
 var twilioClient;
@@ -77,7 +79,20 @@ const verifyotp = async (req, res) => {
             const message = checkOTPHelper(to, otpCode);
             if(message) {
                 logger.info(`otp verified for=${to}`)
-                res.status(200).json({success: true, message})
+                
+                const user = await findUserByMobile(to);
+                if (user) {
+                    //existing user, return token
+                    res.status(200).json({ 
+                        success: true, 
+                        userExists: true, 
+                        user: user,
+                        token: generateToken(user._id),
+                    });
+                }
+
+                //new user
+                res.status(200).json({success: true, userExists: false })
             } else {
                 logger.error(`Error while sending otp ${to}`)
                 return next(new ErrorHandler(`Error while sending otp to ${to}`, 400));
