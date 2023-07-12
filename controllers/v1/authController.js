@@ -1,6 +1,8 @@
 import logger from '../../logger/logger.js';
 import ErrorHandler from "../../utils/errorHandler.js";
 import twilio from "twilio"
+import User from "../../models/UserModels.js";
+import generateToken from "../../config/generateToken.js";
 
 
 var twilioClient;
@@ -62,10 +64,10 @@ const sendotp = async (req, res) => {
     } catch(err) {
       logger.error(`Error in sendotp err=${err}`);
       return next(new ErrorHandler(`Error in sendotp err=${err}`, 500));
-      //res.status(500)
     }
 };
 
+//@route    GET api/v1/auth/verifyotp/:to/:code
 const verifyotp = async (req, res) => {
     logger.info('verifyotp');
     const to = req.params.to;
@@ -77,7 +79,21 @@ const verifyotp = async (req, res) => {
             const message = checkOTPHelper(to, otpCode);
             if(message) {
                 logger.info(`otp verified for=${to}`)
-                res.status(200).json({success: true, message})
+                
+                //find user by mobile
+                const userExists = await User.findOne({ mobile: to });
+                if (userExists) {
+                    //existing user, return token
+                    res.status(200).json({ 
+                        success: true, 
+                        userExists: true, 
+                        userInfo: user,
+                        token: generateToken(user._id),
+                    });
+                }
+
+                //new user
+                res.status(201).json({success: true, userExists: false })
             } else {
                 logger.error(`Error while sending otp ${to}`)
                 return next(new ErrorHandler(`Error while sending otp to ${to}`, 400));
@@ -90,12 +106,47 @@ const verifyotp = async (req, res) => {
     }catch(err) {
         logger.error(`Error in verifyotp err=${err}`);
         return next(new ErrorHandler(`Error in verifyotp err=${err}`, 500));
-        //res.status(500)
     }
 }
 
+const register = async (req, res) => {
+    logger.info("auth register controller function")
+    const { name, email, mobile, address } = req.body;
+    try {
+        if (!name || !email || !mobile || !address) {
+            logger.error(`Please provide all filds`);
+            return next(new ErrorHandler("Please provide all filds", 401));
+        }
+
+        const userExists = await User.findOne({ "$or": [ { email: email }, { mobile: mobile} ]});
+
+        if (userExists) {
+            logger.error(`User with email=${email} or mobile=${mobile} already exists`);
+            return next(new ErrorHandler("User exists, please use other email", 400));
+          }
+
+        const newUser = await User.create({
+            name,
+            email,
+            mobile,
+            address,
+        });
+
+        logger.info(`newuser registered`);
+        res.status(200).json({
+            success: true, 
+            message: 'User registered successfully',
+            userInfo: newUser,
+            token: generateToken(newUser._id)
+        });
+    }catch(error) {
+        logger.error(`Error in register err=${error}`);
+        return next(new ErrorHandler(`Error in register err=${error}`, 500));
+    }
+}
 
   export {
     sendotp,
     verifyotp,
+    register
   };
