@@ -58,6 +58,11 @@ app.use(ErrorHandlerMiddleware);
 //server listening
 const PORT = process.env.PORT || 5555;
 
+process.on('exit', code => {
+  // Only synchronous calls
+  logger.error(`Process exited with code: ${code}`)
+})
+
 app.listen(
   PORT,
   logger.info(`Server running in ${process.env.NODE_ENV || "production" } mode on port ${PORT}`),

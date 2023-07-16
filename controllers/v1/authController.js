@@ -83,6 +83,7 @@ const verifyotp = async (req, res) => {
                 //find user by mobile
                 const userExists = await User.findOne({ mobile: to });
                 if (userExists) {
+                    logger.info(`not a new user mobile=${to}`)
                     //existing user, return token
                     res.status(200).json({ 
                         success: true, 
@@ -93,6 +94,7 @@ const verifyotp = async (req, res) => {
                 }
 
                 //new user
+                logger.info(`new user with mobile=${to}`)
                 res.status(201).json({success: true, userExists: false })
             } else {
                 logger.error(`Error while sending otp ${to}`)
@@ -109,30 +111,30 @@ const verifyotp = async (req, res) => {
     }
 }
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     logger.info("auth register controller function")
     const { name, email, mobile, address } = req.body;
     try {
         if (!name || !email || !mobile || !address) {
             logger.error(`Please provide all filds`);
-            return next(new ErrorHandler("Please provide all filds", 401));
+            return next(new ErrorHandler("Please provide all filds", 403));
         }
 
         const userExists = await User.findOne({ "$or": [ { email: email }, { mobile: mobile} ]});
 
         if (userExists) {
             logger.error(`User with email=${email} or mobile=${mobile} already exists`);
-            return next(new ErrorHandler("User exists, please use other email", 400));
+            return next(new ErrorHandler("User exists, please use other email", 409));
           }
 
         const newUser = await User.create({
-            name,
+            username: name,
             email,
             mobile,
             address,
         });
 
-        logger.info(`newuser registered`);
+        logger.info(`newuser registered with mobile=${mobile} done`);
         res.status(200).json({
             success: true, 
             message: 'User registered successfully',

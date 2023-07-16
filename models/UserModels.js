@@ -15,9 +15,9 @@ const UserSchema = mongoose.Schema({
         "Please provide a valid email",
       ],
     },
-    phone : {
+    mobile : {
         type : Number,
-        required: [true, "Please provide phone number"],
+        required: [true, "Please provide mobile number"],
     },
     address : {
         type : String,
