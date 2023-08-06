@@ -19,9 +19,7 @@ const UserSchema = mongoose.Schema({
         type : Number,
         required: [true, "Please provide mobile number"],
     },
-    address : {
-        type : String,
-    },
+    
     role : {
         type : String,
         default: "user",

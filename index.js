@@ -8,6 +8,7 @@ import categoriesRoutes from "./routes/v1/categoriesRoutes.js"
 import userRoutes from "./routes/v1/userRoutes.js";
 import ordersRoutes from "./routes/v1/ordersRoutes.js"
 import authRoutes from "./routes/v1/authRoutes.js"
+import deliveryRoutes from "./routes/v1/deliveryRoutes.js"
 
 import ErrorHandlerMiddleware from "./middlewares/errorMiddleware.js";
 
@@ -38,16 +39,17 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.use(express.json());
 
 //routes
+app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user" , userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
 app.use("/api/v1/orders" , ordersRoutes);
-app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/delivery", deliveryRoutes);
 
 
 app.get("/test", (req, res) => {
   logger.info("Checking the API status: Everything is OK")
-  res.status(200).send({
+  res.status(200).json({
     status: "UP",
     message: "The API is up and running!"
   });
