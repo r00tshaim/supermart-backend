@@ -37,6 +37,9 @@ OTP
 `TWILIO_VERIFY_SID`
 
 
+## Branches
+introduce-jwt-token-created-and-expiry-time - branch having improvements in twilio auth
+
 ## Project setup
 running seeder script to dump dummy data to mongodb `node seeder.js`
 to destroy all data from mongodb `node seeder.js -d`
