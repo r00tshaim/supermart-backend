@@ -5,7 +5,7 @@ import {
   cancelOrder,
   createOrder,
   getAllOrders,
-  getOrderByUser,
+  getOrdersByUser,
   updateOrderStatus,
 } from "../../controllers/v1/ordersController.js";
 import { protect } from "../../middlewares/authMiddleware.js";
@@ -13,6 +13,6 @@ import { protect } from "../../middlewares/authMiddleware.js";
 //TODO: revisit .post(createOrder) logic and add protect to it once authencitcation feature is completed
 router.route("/").post(createOrder).get(getAllOrders);
 router.route("/updateOrderStatus/:id").put(updateOrderStatus);
-router.route("/:id").get(getOrderByUser).delete(cancelOrder)
+router.route("/:userId").get(getOrdersByUser).delete(cancelOrder)
 
 export default router;

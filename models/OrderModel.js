@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const OrderSchema = mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   orderItems: [
     {
         productId: {
@@ -11,6 +16,7 @@ const OrderSchema = mongoose.Schema({
         qty: {
           type: Number,
           required: true,
+          min: [1, 'Order qty cannot be less then 1.'],
           default: 1,
         }
     },

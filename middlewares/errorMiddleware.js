@@ -8,7 +8,7 @@ function ErrorHandlerMiddleware(err, req, res, next) {
   //console.error("err=",err);
 
   if (err instanceof ErrorHandler) {
-    logger.info("err is instance of ErrorHandler")
+    logger.info("err is instance of ErrorHandler. err=", err)
     res.status(err.code).json(err);
     return;
   }

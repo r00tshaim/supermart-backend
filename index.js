@@ -2,6 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 
+import initSocket from './socket/socket.js';
+
+import cors from "cors";
+
 import { dbconnect } from "./utils/dbconnect.js";
 import productRoutes from "./routes/v1/productsRoutes.js";
 import categoriesRoutes from "./routes/v1/categoriesRoutes.js"
@@ -29,8 +33,19 @@ initTwilio();
 
 const app = express();
 
+// Initialize Socket.IO and get server and io objects
+const { server, io } = initSocket(app);
+
+// Broadcast the current server time as global message, every 1s
+ setInterval(() => {
+   io.sockets.emit('message-for-client', { time: new Date().toISOString() });
+ }, 1000);
+
+
 // Add the morgan middleware
 app.use(morganMiddleware);
+
+app.use(cors())
 
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
@@ -61,10 +76,12 @@ const PORT = process.env.PORT || 5555;
 process.on('exit', code => {
   // Only synchronous calls
   logger.error(`Process exited with code: ${code}`)
+  console.log(`Process exited with code: ${code}`)
 })
 
-app.listen(
+server.listen(
   PORT,
+  '0.0.0.0',
   logger.info(`Server running in ${process.env.NODE_ENV || "production" } mode on port ${PORT}`),
   console.log(
     `Server running in ${process.env.NODE_ENV || "production" } mode on port ${PORT}`

@@ -13,19 +13,26 @@ const createOrder = async (req, res, next) => {
     orderTotal,
     deliveryAddress,
     paymentMethod,
+    userId,
   } = req.body;
 
-  orderItems.map((item) => console.log("item=", item));
-  console.log(
-    `orderTotal=${orderTotal} deliverAdd=${deliveryAddress} paymentMethod=${paymentMethod}`
-  );
+  // orderItems.map((item) => console.log("item=", item));
+  // console.log(
+  //   `orderTotal=${orderTotal} deliverAdd=${deliveryAddress} paymentMethod=${paymentMethod}`
+  // );
 
-  if (!orderItems || !orderTotal || !deliveryAddress || !paymentMethod) {
+  if (!orderItems || !orderTotal || !deliveryAddress || !paymentMethod || !userId) {
     return next(new ErrorHandler(401, "Please provide all required filds"));
   }
 
+  // if(!req.user) {
+  //   return next(new ErrorHandler(401, "User unauthorized"));
+  // }
+
+
   try {
     const order = new Order({
+      userId,
       orderItems,
       //user: req.user._id,           //TODO: we need to revisit this logic once authentication feature is completed
       //status,
@@ -52,6 +59,29 @@ const createOrder = async (req, res, next) => {
   }
 };
 
+// @desc    Fetch all Orders for a user
+// @route   GET /api/v1/user/:id/orders
+// @access  Private
+const getOrdersByUser = async (req, res, next) => {
+  const userId = req.params.userId;
+  if(userId) {
+    return next(new ErrorHandler(401, "User unauthorized"));
+  }
+
+  try {
+    //const userId = req.params.id;
+    const orders = await Order.find({ userId: "507f1f77bcf86cd799439011" }).populate({
+      path: "orderItems.productId",
+    });
+    console.log("orders for userId=", "507f1f77bcf86cd799439011", " are=", orders)
+    res.status(200).json({
+      orders,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(501, `Error getAllOrdersForUser(): ${error.message}`));
+  }
+}
+
 // @desc    Fetch all Orders
 // @route   GET /api/v1/orders
 // @access  Public
@@ -60,7 +90,7 @@ const getAllOrders = async (req, res, next) => {
     const orders = await Order.find().populate({
       path:"orderItems.productId"
     });
-    console.log("orders=", orders)
+    //console.log("orders=", orders)
     res.status(200).json({
       orders,
     });
@@ -131,6 +161,6 @@ export {
   getAllOrders,
   createOrder,
   updateOrderStatus,
-  getOrderByUser,
+  getOrdersByUser,
   cancelOrder,
 };
